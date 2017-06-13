@@ -1,3 +1,7 @@
+## 1.5
+* Add plugin resource extensions support.
+* Add additional command line arguments support.
+
 ## 1.4
 * Add more SJSON file types.
 * Auto completion for stingray API from official stingray documentation.
