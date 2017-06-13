@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import SJSON = require('simplified-json');
 import {readFileSync as readFile, existsSync as fileExists} from 'fs';
 import {EngineProcess, DEFAULT_ENGINE_CONSOLE_PORT} from './engine-process';
+import {findResourceMaps} from './plugins';
 
 export class EngineLauncher {
     private dataDir: string;
@@ -65,6 +66,15 @@ export class EngineLauncher {
                 "--data-dir", `"${this.dataDir}"`,
                 "--port 14999"
             ];
+
+            // Find resource maps using the TCC.
+            let resourceMaps = findResourceMaps(this.tcPath);
+            for (let resourceMap of resourceMaps) {
+                engineArgs.push("--map-source-dir");
+                engineArgs.push(resourceMap.name);
+                engineArgs.push(resourceMap.path);
+            }
+
             compilePromise = EngineProcess.run(engineExe, engineArgs);
         }
 
