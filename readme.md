@@ -4,14 +4,10 @@ Use the [Visual Studio Code](https://code.visualstudio.com) editor and debugger 
 
 Find the extension [here, in the Visual Studio Code marketplace](https://marketplace.visualstudio.com/items?itemName=jschmidt42.stingray-debug).
 
-## 1.4 (New features and bug fixes)
+## 1.5 (New features and bug fixes)
 
-* Auto-completion for the Stingray Lua API, based on the [Stingray Lua reference](http://help.autodesk.com/view/Stingray/ENU/?guid=__lua_ref_index_html).
-* Add a `compile:boolean` launch option, so you can compile your project before launching without having to use the command-line flag.
-* You now have to prefix console commands that you send to the engine with `--` instead of `#`.
-* The callstack now gets evaluated even if the source file cannot be found.
-* The extension can find files and code in your core folder if you provide your `toolchain` path.
-* You can now send engine commands through the **Command Palette**. Type `Stingray Command`, hit `Enter`, then type the command you want to send.
+* Add plugin resource extensions support.
+* Add additional command line arguments support.
 
 ## Description
 
@@ -112,6 +108,12 @@ To set this up, use a launch configuration like this:
 
 	// Full path to the project you want to launch for debugging.
 	"project_file": "D:/pitchcrawl/pitchcrawl.stingray_project",
+
+	// List of additional plugins root paths used for compilation (i.e. resource maps) and debugging runtime.
+	// All toolchain plugins are automatically included.
+	"additional_plugins": [
+		"D:/stingray_html5"
+	],
 
 	// Recompile any modified resources in the project before launching.
 	"compile":true

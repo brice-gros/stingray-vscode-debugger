@@ -7,14 +7,25 @@ import {readFileSync as readFile, existsSync as fileExists} from 'fs';
 import {EngineProcess, DEFAULT_ENGINE_CONSOLE_PORT} from './engine-process';
 import {findResourceMaps} from './plugins';
 
+export interface LaunchConfiguration {
+    tcPath: string;
+    projectPath: string;
+    additionalPlugins?: string[];
+    commandLineArgs?: string[];
+}
+
 export class EngineLauncher {
+    additionalCommandLineArgs: string[];
+    private additionalPlugins: string[];
     private dataDir: string;
     private sourceDir: string;
     private coreRootDir: string;
     private srpPath: any;
     private tcPath: string;
 
-    constructor (tcPath: string, srpPath: string) {
+    constructor (config: LaunchConfiguration) {
+        const tcPath = config.tcPath;
+        const srpPath = config.projectPath;
 
         if (!fileExists(tcPath))
             throw new Error(`Invalid ${tcPath} toolchain folder path`);
@@ -52,6 +63,8 @@ export class EngineLauncher {
         this.sourceDir = this.sourceDir.replace(/^[\/\\]|[\/\\]$/g, '');
         this.dataDir = this.dataDir.replace(/^[\/\\]|[\/\\]$/g, '');
         this.coreRootDir = this.coreRootDir.replace(/^[\/\\]|[\/\\]$/g, '');
+        this.additionalPlugins = config.additionalPlugins || [];
+        this.additionalCommandLineArgs = config.commandLineArgs || [];
     }
 
     public start (compile: boolean): Promise<EngineProcess> {
@@ -67,12 +80,12 @@ export class EngineLauncher {
                 "--port 14999"
             ];
 
-            // Find resource maps using the TCC.
-            let resourceMaps = findResourceMaps(this.tcPath);
+            // Find resource maps under the TCC.
+            let resourceMaps = findResourceMaps(this.additionalPlugins.concat([this.tcPath]));
             for (let resourceMap of resourceMaps) {
                 engineArgs.push("--map-source-dir");
                 engineArgs.push(resourceMap.name);
-                engineArgs.push(resourceMap.path);
+                engineArgs.push(resourceMap.dir);
             }
 
             compilePromise = EngineProcess.run(engineExe, engineArgs);
@@ -85,6 +98,7 @@ export class EngineLauncher {
                 "--data-dir", `"${this.dataDir}"`,
                 "--wait-for-debugger"
             ];
+            engineArgs = engineArgs.concat(this.additionalCommandLineArgs);
             engineProcess.start(engineArgs, DEFAULT_ENGINE_CONSOLE_PORT);
             return engineProcess;
         });

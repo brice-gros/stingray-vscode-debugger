@@ -1,7 +1,7 @@
 {
     "name": "stingray-debug",
     "displayName": "Stingray Debugger",
-    "version": "1.4.7",
+    "version": "1.5.0",
     "description": "Extension to debug Autodesk Stingray applications and games.",
     "license": "MIT",
     "author": {
@@ -41,8 +41,8 @@
         "@types/es6-promise": "^0.0.32",
         "@types/mocha": "^2.2.33",
         "@types/node": "^6.0.50",
-        "typescript": "^2.0.10",
         "mocha": "^3.1.2",
+        "typescript": "^2.3.4",
         "vscode": "^1.1.0",
         "vscode-debugadapter-testsupport": "^1.17.0"
     },
@@ -169,7 +169,9 @@
                             "request": "launch",
                             "name": "${1:My application name}",
                             "toolchain": "C:/path/to/stingray/binaries/installation",
-                            "project_file": "^\"\\${workspaceRoot}/project.stingray_project\""
+                            "project_file": "^\"\\${workspaceRoot}/project.stingray_project\"",
+                            "compile": true,
+                            "additional_plugins": []
                         }
                     },
                     {
@@ -217,6 +219,10 @@
                             "command_line_args": {
                                 "type": "array",
                                 "description": "Optional command line arguments passed to the engine."
+                            },
+                            "additional_plugins": {
+                                "type": "array",
+                                "description": "Full paths of folder to scan for additional plugins."
                             }
                         }
                     },

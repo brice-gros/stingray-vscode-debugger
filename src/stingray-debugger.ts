@@ -37,6 +37,8 @@ export interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArgum
     toolchain: string;
     /** Project settings file path */
     project_file: string;
+    /* Full paths of plugin folder to be scanned for additional plugins. (i.e. resource extensions). */
+    additional_plugins: string[];
     /** If set, the project will be compiled before being launched. */
     compile?: boolean;
     /** Additional argument fields to be used for debugging */
@@ -227,9 +229,14 @@ class StingrayDebugSession extends DebugSession {
         let toolchainPath = args.toolchain;
         let projectFilePath = args.project_file;
         // Launch engine
-        let launcher = new EngineLauncher(toolchainPath, projectFilePath)
+        let launcher = new EngineLauncher({
+            tcPath: toolchainPath,
+            projectPath: projectFilePath,
+            additionalPlugins: args.additional_plugins || [],
+            commandLineArgs: args.command_line_args || []
+        });
         if (args.compile) {
-            this.sendEvent(new OutputEvent(`Compiling data...`));
+            this.sendEvent(new OutputEvent(`Compiling data...\r\n`));
             setTimeout(() => {
                 let compilerConnection = new ConsoleConnection("127.0.0.1", 14999);
                 compilerConnection.onMessage(this.onEngineMessageReceived.bind(this));
@@ -237,7 +244,7 @@ class StingrayDebugSession extends DebugSession {
         }
         launcher.start(args.compile).then(engineProcess => {
             // Tell the user what we are launching.
-            this.sendEvent(new OutputEvent(`Launching ${engineProcess.cmdline}`));
+            this.sendEvent(new OutputEvent(`Launching ${engineProcess.cmdline}...\r\n`));
 
             // Set startup project root to resolve scripts.
             this._projectFolderMaps["<project>"] = path.dirname(projectFilePath);

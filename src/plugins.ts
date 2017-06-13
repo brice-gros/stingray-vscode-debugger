@@ -9,6 +9,7 @@ export interface Extension {
 
 export interface ResourceExtension extends Extension {
     name: string;
+    dir: string;
     path: string;
 }
 
@@ -19,8 +20,8 @@ export interface Plugin {
 }
 
 export function findPlugins (root: string) {
-    let pluginDescriptorPahs = findFiles(root, "*.stingray_plugin", true);
-    return pluginDescriptorPahs.map(pluginDescriptorPath => {
+    let pluginDescriptorPaths = findFiles(root, ".stingray_plugin", true);
+    return pluginDescriptorPaths.map(pluginDescriptorPath => {
         let pluginContent = readFile(pluginDescriptorPath, 'utf8');
         let plugin: Plugin = SJSON.parse(pluginContent);
         plugin.$path = pluginDescriptorPath;
@@ -29,19 +30,21 @@ export function findPlugins (root: string) {
     });
 }
 
-export function findResourceMaps (root: string) {
+export function findResourceMaps (rootPluginPaths: string[]) {
     let resources:ResourceExtension[] = [];
-    let plugins = findPlugins(root);
-    for (let plugin of plugins) {
-        // Check for resource extensions
-        if (plugin.extensions && plugin.extensions.length &&
-            plugin.extensions.resources && plugin.extensions.resources.length) {
-            resources = resources.concat((<ResourceExtension[]>plugin.extensions.resources).map(res => {
-                return {
-                    name: path.basename(res.path),
-                    path: path.join(plugin.$dir, res.path)
-                }
-            }));
+    for (let rootPluginPath of rootPluginPaths) {
+        let plugins = findPlugins(rootPluginPath);
+        for (let plugin of plugins) {
+            // Check for resource extensions
+            if (plugin.extensions && plugin.extensions.resources && plugin.extensions.resources.length) {
+                resources = resources.concat((<ResourceExtension[]>plugin.extensions.resources).map(res => {
+                    return {
+                        name: path.basename(res.path),
+                        dir: plugin.$dir,
+                        path: path.join(plugin.$dir, res.path)
+                    }
+                }));
+            }
         }
     }
     return resources;
