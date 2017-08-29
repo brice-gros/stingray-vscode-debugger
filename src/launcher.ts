@@ -9,6 +9,7 @@ import {findResourceMaps} from './plugins';
 
 export interface LaunchConfiguration {
     tcPath: string;
+    engineExe: string;
     projectPath: string;
     additionalPlugins?: string[];
     commandLineArgs?: string[];
@@ -22,10 +23,14 @@ export class EngineLauncher {
     private coreRootDir: string;
     private srpPath: any;
     private tcPath: string;
+    private engineExe: string;
 
     constructor (config: LaunchConfiguration) {
         const tcPath = config.tcPath;
+        const engineExe = config.engineExe || "interactive_win64_dev.exe";
         const srpPath = config.projectPath;
+
+        // TODO: Validate that engine exe exists.
 
         if (!fileExists(tcPath))
             throw new Error(`Invalid ${tcPath} toolchain folder path`);
@@ -36,6 +41,7 @@ export class EngineLauncher {
         this.tcPath = tcPath;
         this.srpPath = srpPath;
         this.coreRootDir = tcPath;
+        this.engineExe = engineExe;
 
         // Read project settings to get data dir
         let srpSJSON = readFile(this.srpPath, 'utf8');
@@ -68,7 +74,7 @@ export class EngineLauncher {
     }
 
     public start (compile: boolean): Promise<EngineProcess> {
-        let engineExe = path.join(this.tcPath, 'engine', 'win64', 'dev', 'stingray_win64_dev.exe');
+        let engineExe = path.join(this.tcPath, 'engine', 'win64', 'dev', this.engineExe);
         let engineProcess = new EngineProcess(engineExe);
         let compilePromise = Promise.resolve();
         if (compile) {

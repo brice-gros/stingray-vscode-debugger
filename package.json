@@ -1,8 +1,8 @@
 {
     "name": "stingray-debug",
-    "displayName": "Stingray Debugger",
-    "version": "1.5.0",
-    "description": "Extension to debug Autodesk Stingray applications and games.",
+    "displayName": "Autodesk Interactive Debugger",
+    "version": "2.0.0",
+    "description": "Extension to debug Autodesk Interactive applications and games.",
     "license": "MIT",
     "author": {
         "url": "https://github.com/jschmidt42",
@@ -11,13 +11,14 @@
     },
     "keywords": [
         "autodesk",
+        "interactive",
         "stingray",
         "debugger",
         "lua"
     ],
     "publisher": "jschmidt42",
     "engines": {
-        "vscode": "^1.1.0",
+        "vscode": "^1.1.5",
         "node": "^6.5.0"
     },
     "icon": "images/icon.png",
@@ -32,8 +33,8 @@
     "dependencies": {
         "lodash": "^4.17.4",
         "simplified-json": "^0.2.0",
-        "vscode-debugadapter": "^1.18.0-pre.4",
-        "vscode-debugprotocol": "^1.18.0-pre.2",
+        "vscode-debugprotocol": "^1.19.0",
+        "vscode-debugadapter": "^1.19.0",
         "ws": "^2.2.2"
     },
     "devDependencies": {
@@ -42,13 +43,15 @@
         "@types/mocha": "^2.2.33",
         "@types/node": "^6.0.50",
         "mocha": "^3.1.2",
-        "typescript": "^2.3.4",
-        "vscode": "^1.1.0",
-        "vscode-debugadapter-testsupport": "^1.17.0"
+        "tslint": "^5.7.0",
+        "typescript": "^2.5.1",
+        "vscode": "^1.1.5",
+        "vscode-debugadapter-testsupport": "^1.19.0"
     },
     "scripts": {
         "prepublish": "node ./node_modules/typescript/bin/tsc -p ./src",
         "compile": "node ./node_modules/typescript/bin/tsc -p ./src",
+        "tslint": "tslint ./src/**/*.ts",
         "watch": "node ./node_modules/typescript/bin/tsc -w -p ./src",
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
@@ -93,6 +96,7 @@
                 ],
                 "extensions": [
                     ".sjson",
+                    ".config",
                     ".material",
                     ".shader",
                     ".shader_node",
@@ -169,6 +173,7 @@
                             "request": "launch",
                             "name": "${1:My application name}",
                             "toolchain": "C:/path/to/stingray/binaries/installation",
+                            "engine_exe": "interactive_win64_dev.exe",
                             "project_file": "^\"\\${workspaceRoot}/project.stingray_project\"",
                             "compile": true,
                             "additional_plugins": []
@@ -207,6 +212,10 @@
                             "toolchain": {
                                 "type": "string",
                                 "description": "Stingray installation folder. e.g. C:/Program Files/Autodesk/Stingray/1.8.1267.0"
+                            },
+                            "engine_exe": {
+                                "type": "string",
+                                "description": "Stingray executable name. e.g. stingray_win64_dev.exe"
                             },
                             "project_file": {
                                 "type": "string",

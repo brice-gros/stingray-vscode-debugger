@@ -1,6 +1,6 @@
-# Stingray Debugger
+# Autodesk Interactive Debugger
 
-Use the [Visual Studio Code](https://code.visualstudio.com) editor and debugger with your [Autodesk® Stingray](http://www.stingrayengine.com) projects!
+Use the [Visual Studio Code](https://code.visualstudio.com) editor and debugger with your [Autodesk® Interactive](https://forge.autodesk.com/categories/arvr) projects!
 
 Find the extension [here, in the Visual Studio Code marketplace](https://marketplace.visualstudio.com/items?itemName=jschmidt42.stingray-debug).
 
@@ -11,19 +11,19 @@ Find the extension [here, in the Visual Studio Code marketplace](https://marketp
 
 ## Description
 
-This extension makes Visual Studio Code into a full-featured code editing debugging environment for your Stingray projects. You can connect the debugger to a running engine, launch a project, trigger breakpoints and step through your project's Lua code, view variable values, send commands to the engine, and more.
+This extension makes Visual Studio Code into a full-featured code editing debugging environment for your Autodesk Interactive projects. You can connect the debugger to a running engine, launch a project, trigger breakpoints and step through your project's Lua code, view variable values, send commands to the engine, and more.
 
-If you haven't heard about Stingray yet, check out the following links:
+If you haven't heard about Autodesk Interactive yet, check out the following links:
 
-- [The main Stingray site at www.autodesk.com](https://www.autodesk.com/products/stingray/overview), where you can download a trial version.
-- [The Stingray Learning Center](http://help.autodesk.com/view/Stingray/ENU/), where you can find help, tutorials, and reference docs.
-- [The Stingray SDK Help](http://help.autodesk.com/view/Stingray/ENU/?guid=__sdk_help_introduction_html), useful if you want to write your own plug-in to extend Stingray.
+- [The main Autodesk Interactive site at www.autodesk.com](https://www.autodesk.com/products/stingray/overview), where you can download a trial version.
+- [The Autodesk Interactive Learning Center](http://help.autodesk.com/view/Stingray/ENU/), where you can find help, tutorials, and reference docs.
+- [The Autodesk Interactive SDK Help](http://help.autodesk.com/view/Stingray/ENU/?guid=__sdk_help_introduction_html), useful if you want to write your own plug-in to extend Autodesk Interactive.
 
 ## Step 1. Install the extension
 
 Bring up the Extensions view by clicking the Extensions icon in the Activity Bar on the left side of Visual Studio Code, or selecting **View > Extensions** (`Ctrl+Shift+X`) from the main menu.
 
-Search for `Stingray Debugger`. You should find something like this:
+Search for `Autodesk Interactive Debugger`. You should find something like this:
 
 ![image](https://cloud.githubusercontent.com/assets/4054655/24268552/7b89627a-0fe4-11e7-83e8-f170e0aebfd9.png)
 
@@ -31,7 +31,7 @@ For more about installing extensions, see the [Visual Studio Code user guide](ht
 
 ## Step 2. Open your project folder
 
-Open your Stingray project folder in Visual Studio Code. This will be your workspace, where Visual Studio Code will keep your debug configurations.
+Open your Autodesk Interactive project folder in Visual Studio Code. This will be your workspace, where Visual Studio Code will keep your debug configurations.
 
 Select **File > Open Folder** (`Ctrl+K Ctrl+O`) from the main menu, and browse to the folder that contains your project's *.stingray_project* file.
 
@@ -43,7 +43,7 @@ A *debug configuration* tells the Visual Studio Code debugger what it should do 
 
 You can read some background about these configs [here](https://code.visualstudio.com/docs/editor/debugging).
 
-You'll have to create at least one new debug configuration in order to make the debugger able to attach to or launch the Stingray engine.
+You'll have to create at least one new debug configuration in order to make the debugger able to attach to or launch the Autodesk Interactive engine.
 
 1.	Bring up the Debug view by clicking the Debug icon in the Activity Bar on the left side of Visual Studio Code, or by selecting **View > Debug** (`Ctrl+Shift+D`) from the main menu.
 
@@ -57,7 +57,7 @@ You'll have to create at least one new debug configuration in order to make the 
 
 ### Attach to a running engine
 
-You can make the Visual Studio Code debugger connect to a running instance of the Stingray engine. Use the following launch configuration:
+You can make the Visual Studio Code debugger connect to a running instance of the Autodesk Interactive engine. Use the following launch configuration:
 
 ```javascript
 {
@@ -66,7 +66,7 @@ You can make the Visual Studio Code debugger connect to a running instance of th
 	"request": "attach", // Use attach here to make the debugger connect to an existing process.
 	"name": "My Stingray Game",
 
-	// The IP address of the device running the Stingray engine.
+	// The IP address of the device running the Autodesk Interactive engine.
 	"ip": "127.0.0.1",
 
 	// The port the engine is using for console communications.
@@ -80,7 +80,7 @@ The `port` setting to use depends on how you've launched the engine:
 
 -	If you launched the engine on Windows using the editor's Run Project feature, or by running a deployed project (with the `dev` configuration), the engine chooses a free port between `14000` and `14030` inclusive. This means that you might not have the same port number every time you run. To specify a pre-set port number when you launch the engine, you can use the `--port <number>` command-line parameter.
 
-	**Tip:** to specify a port when you use the editor's Run Project feature, add the `--port <number>` command-line parameter to the default `localhost` connection listed in the **Connections** panel of the Stingray editor.
+	**Tip:** to specify a port when you use the editor's Run Project feature, add the `--port <number>` command-line parameter to the default `localhost` connection listed in the **Connections** panel of the Autodesk Interactive editor.
 
 -	You can also connect to the instance engine that the editor runs internally. This can be useful in order to debug the Lua code in the `core/editor_slave` folder, which provides viewport behaviors for the editor. In this case, use port `14030`.
 
@@ -88,7 +88,7 @@ The `port` setting to use depends on how you've launched the engine:
 
 ### Launch a project and attach
 
-You can make the Visual Studio Code debugger launch the Stingray engine with a specific project, and immediately attach itself to that instance of the engine. The engine will wait for the debugger to connect and start the debugging session before it runs any Lua initialization code.
+You can make the Visual Studio Code debugger launch the Autodesk Interactive engine with a specific project, and immediately attach itself to that instance of the engine. The engine will wait for the debugger to connect and start the debugging session before it runs any Lua initialization code.
 
 Launching the game from the debugger like this makes it easy to trigger breakpoints in your initialization code:
 
@@ -105,6 +105,9 @@ To set this up, use a launch configuration like this:
 
 	// Folder where Stingray is installed.
 	"toolchain": "C:\\Program Files\\Autodesk\\Stingray\\1.8.1218.0",
+
+    // Stingray executable name
+    "engine_exe": "interactive_win64_dev.exe";
 
 	// Full path to the project you want to launch for debugging.
 	"project_file": "D:/pitchcrawl/pitchcrawl.stingray_project",
@@ -128,7 +131,7 @@ To set this up, use a launch configuration like this:
 }
 ```
 
-You don't have to provide any command-line parameters. The debugger extension will set the ones it needs, like `--port` and `--data-dir`. But you can add your own if you want to customize something about the way the engine starts up. For the complete list of command-line arguments the engine accepts, see [the Stingray Help](http://help.autodesk.com/view/Stingray/ENU/?guid=__stingray_help_reference_engine_command_line_html).
+You don't have to provide any command-line parameters. The debugger extension will set the ones it needs, like `--port` and `--data-dir`. But you can add your own if you want to customize something about the way the engine starts up. For the complete list of command-line arguments the engine accepts, see [the Autodesk Interactive Help](http://help.autodesk.com/view/Stingray/ENU/?guid=__stingray_help_reference_engine_command_line_html).
 
 ## Step 5. Start debugging!
 
@@ -164,7 +167,7 @@ Whenever the engine evaluates a line of code that has a breakpoint set, it pause
 
 ### Read console messages
 
-Just like the **Log Console** in the Stingray editor, the **Debug Console** in Visual Studio Code prints out all console messages sent by the connected engine:
+Just like the **Log Console** in the Autodesk Interactive editor, the **Debug Console** in Visual Studio Code prints out all console messages sent by the connected engine:
 
 ![engine message output](https://cloud.githubusercontent.com/assets/4054655/24308807/da2a0008-109f-11e7-970b-5d82953c0fe0.gif)
 
@@ -178,7 +181,7 @@ You can send console commands to the engine from the **Debug Console**. Prefix t
 
 You can also send commands from the **Command Palette**. Open the Command Palette, type `Stingray Command` and hit `Enter`. Then, enter the command you want to send (without the `--` prefix).
 
-For a list of all available console commands and their parameters, see [the Stingray help](http://help.autodesk.com/view/Stingray/ENU/?guid=__stingray_help_reference_console_commands_html).
+For a list of all available console commands and their parameters, see [the Autodesk Interactive help](http://help.autodesk.com/view/Stingray/ENU/?guid=__stingray_help_reference_console_commands_html).
 
 ### Send engine scripts
 
@@ -188,15 +191,15 @@ Everything that you type in the **Debug Console** that is *not* prefixed with `-
 
 ## Code editing features
 
-This extension does more than just debugging: it also adds some extra features to the code editor that you'll find especially handy when you work with Stingray projects.
+This extension does more than just debugging: it also adds some extra features to the code editor that you'll find especially handy when you work with Autodesk Interactive projects.
 
-### Stingray Lua API hovering support
+### Autodesk Interactive Lua API hovering support
 
-Hover over any function from the Stingray API to get the function's signature and brief description:
+Hover over any function from the Autodesk Interactive API to get the function's signature and brief description:
 
 ![hovering](images/hovering.png)
 
-### Stingray Lua API function signatures
+### Autodesk Interactive Lua API function signatures
 
 You'll also be reminded of the signature and description as you type the opening bracket for a function:
 
@@ -204,7 +207,7 @@ You'll also be reminded of the signature and description as you type the opening
 
 ### Syntax highlighting for SJSON resources
 
-The code editor shows appropriate syntax highlighting for Stingray resource types that use [SJSON format](http://help.autodesk.com/view/Stingray/ENU/?guid=__stingray_help_managing_content_sjson_html), like *.unit*, *.level*, and *.script_flow_nodes*.
+The code editor shows appropriate syntax highlighting for Autodesk Interactive resource types that use [SJSON format](http://help.autodesk.com/view/Stingray/ENU/?guid=__stingray_help_managing_content_sjson_html), like *.unit*, *.level*, and *.script_flow_nodes*.
 
 ![SJSON highlighting](images/sjson.png)
 

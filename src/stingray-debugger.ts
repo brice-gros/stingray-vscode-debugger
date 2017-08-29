@@ -35,6 +35,8 @@ export interface AttachRequestArguments extends DebugProtocol.LaunchRequestArgum
 export interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArguments {
     /** Stingray binary folder */
     toolchain: string;
+    /** Stingray executable name */
+    engine_exe: string;
     /** Project settings file path */
     project_file: string;
     /* Full paths of plugin folder to be scanned for additional plugins. (i.e. resource extensions). */
@@ -228,9 +230,11 @@ class StingrayDebugSession extends DebugSession {
     protected launchRequest(response: DebugProtocol.LaunchResponse, args: LaunchRequestArguments): void {
         let toolchainPath = args.toolchain;
         let projectFilePath = args.project_file;
+        let engineExe = args.engine_exe;
         // Launch engine
         let launcher = new EngineLauncher({
             tcPath: toolchainPath,
+            engineExe: engineExe,
             projectPath: projectFilePath,
             additionalPlugins: args.additional_plugins || [],
             commandLineArgs: args.command_line_args || []
