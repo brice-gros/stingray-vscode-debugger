@@ -1,3 +1,8 @@
+## 2.0
+* Rename to Autodesk Interactive
+* Read Stingray TCC app.config to get extra settings.
+* Allow the user to configure what is the EXE engine name to be launched.
+
 ## 1.5
 * Add plugin resource extensions support.
 * Add additional command line arguments support.
