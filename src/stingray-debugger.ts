@@ -272,9 +272,11 @@ class StingrayDebugSession extends DebugSession {
     protected attachRequest(response: DebugProtocol.AttachResponse, args: AttachRequestArguments): void {
         var ip = args.ip;
         var port = args.port;
+        var _this = this;
 
         // Establish web socket connection with engine.
-        this.connectToEngine(ip, port, response);
+        // Usinga timeout in order to support compound launch configurations
+        setTimeout(function () { return _this.connectToEngine(ip, port, response); }, 1000);
     }
 
     /**
